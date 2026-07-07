@@ -105,6 +105,16 @@ let isDrawing = false;
 let resetAwaitingConfirmation = false;
 let resetConfirmTimer = null;
 
+function buildEmptyReel() {
+  reelItems = [];
+  reel.innerHTML = "";
+  currentIndex = 0;
+  reel.style.transition = "none";
+  reel.style.setProperty("--offset", "0px");
+  reel.offsetHeight;
+  reel.style.transition = "";
+}
+
 function buildReel(activeName = remaining[0]) {
   const source = remaining.length ? remaining : originalTechniques;
   const repeatCount = Math.max(3, Math.ceil(82 / source.length));
@@ -256,7 +266,7 @@ function resetDraw() {
   resultText.style.fontSize = "";
   stage.classList.remove("flash", "final-hit", "is-drawing");
   reel.classList.remove("spinning", "slowing", "suspense");
-  buildReel();
+  buildEmptyReel();
   renderDrawnList();
   updateStatus();
 }
@@ -265,6 +275,6 @@ drawButton.addEventListener("click", drawTechnique);
 resetButton.addEventListener("click", resetDraw);
 window.addEventListener("resize", () => moveReel(currentIndex, false));
 
-buildReel();
+buildEmptyReel();
 renderDrawnList();
 updateStatus();
