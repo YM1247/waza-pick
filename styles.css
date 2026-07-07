@@ -179,6 +179,11 @@ h1 {
   white-space: nowrap;
 }
 
+.original-page .reel li {
+  font-size: clamp(1.1rem, 2.8vw, 2rem);
+  line-height: 1.05;
+}
+
 .reel li.is-active {
   color: var(--wine);
   text-shadow: 0 2px 0 rgba(255, 242, 206, 0.9), 0 0 22px rgba(198, 140, 43, 0.38);
@@ -405,6 +410,10 @@ h1 {
 
   .reel li {
     white-space: normal;
+  }
+
+  .original-page .reel li {
+    font-size: clamp(0.98rem, 4.2vw, 1.55rem);
   }
 
   .controls {
