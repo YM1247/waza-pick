@@ -28,13 +28,26 @@ let resetConfirmTimer = null;
 
 function buildReel(activeName = remaining[0]) {
   const source = remaining.length ? remaining : originalTechniques;
-  const repeatCount = Math.max(14, Math.ceil(82 / source.length));
+  const repeatCount = Math.max(3, Math.ceil(82 / source.length));
   reelItems = Array.from({ length: repeatCount }, () => source).flat();
   reel.innerHTML = reelItems
-    .map((name) => `<li class="${name === activeName ? "is-active" : ""}">${name}</li>`)
+    .map((name) => `<li class="${name === activeName ? "is-active" : ""}" data-name="${name}">${name}</li>`)
     .join("");
+  fitReelItems();
   currentIndex = Math.max(0, reelItems.indexOf(activeName));
   moveReel(currentIndex, false);
+}
+
+function fitSingleLineText(text, maxPx, minPx, widthScale) {
+  const length = Math.max(1, text.length);
+  return Math.max(minPx, Math.min(maxPx, widthScale / length));
+}
+
+function fitReelItems() {
+  reel.querySelectorAll("li").forEach((item) => {
+    const name = item.dataset.name || item.textContent || "";
+    item.style.fontSize = `${fitSingleLineText(name, 26, 11, 420)}px`;
+  });
 }
 
 function moveReel(index, animated = true) {
@@ -59,14 +72,14 @@ function setActive(index) {
 }
 
 function updateStatus() {
-  remainingText.textContent = `剩餘 ${remaining.length} / ${originalTechniques.length} 技`;
+  remainingText.textContent = `剩餘 ${remaining.length} / ${originalTechniques.length} 則留言`;
   drawButton.disabled = isDrawing || remaining.length === 0;
   resetButton.disabled = isDrawing;
   if (!resetAwaitingConfirmation) {
     resetButton.textContent = "重置技庫";
     resetButton.classList.remove("confirming");
   }
-  drawButton.textContent = isDrawing ? "抽選中" : remaining.length === 0 ? "技庫已抽完" : "抽選開始";
+  drawButton.textContent = isDrawing ? "抽選中..." : remaining.length === 0 ? "技庫已抽完" : "抽選開始";
 }
 
 function renderDrawnList() {
@@ -75,7 +88,9 @@ function renderDrawnList() {
     return;
   }
 
-  drawnList.innerHTML = drawn.map((name, index) => `<li>${index + 1}. ${name}</li>`).join("");
+  drawnList.innerHTML = drawn
+    .map((name, index) => `<li style="font-size: ${fitSingleLineText(name, 22, 12, 300)}px">${index + 1}. ${name}</li>`)
+    .join("");
 }
 
 function randomTechnique() {
@@ -92,6 +107,7 @@ async function drawTechnique() {
   cancelResetConfirmation();
   isDrawing = true;
   updateStatus();
+  resultText.style.fontSize = "";
   resultText.textContent = "抽選中...";
   stage.classList.remove("flash", "final-hit", "is-drawing");
   stage.classList.add("is-drawing");
@@ -125,6 +141,7 @@ async function drawTechnique() {
   setActive(currentIndex);
   await delay(220);
   resultText.textContent = winner;
+  resultText.style.fontSize = `${fitSingleLineText(winner, 68, 18, 460)}px`;
   remaining = remaining.filter((name) => name !== winner);
   drawn.push(winner);
   isDrawing = false;
@@ -157,6 +174,7 @@ function resetDraw() {
   remaining = [...originalTechniques];
   drawn = [];
   resultText.textContent = "等待抽選";
+  resultText.style.fontSize = "";
   stage.classList.remove("flash", "final-hit", "is-drawing");
   reel.classList.remove("spinning", "slowing", "suspense");
   buildReel();

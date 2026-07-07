@@ -173,7 +173,6 @@ h1 {
   place-items: center;
   padding: 0 20px;
   color: rgba(47, 23, 14, 0.62);
-  font-size: clamp(1.45rem, 5vw, 3rem);
   font-weight: 800;
   text-align: center;
   border-bottom: 1px solid rgba(122, 9, 9, 0.14);
@@ -216,7 +215,7 @@ h1 {
 }
 
 #resultText {
-  font-size: clamp(2.15rem, 7vw, 4.7rem);
+  font-size: clamp(1.9rem, 5.5vw, 4.7rem);
   line-height: 1.1;
   text-align: center;
 }
@@ -300,8 +299,11 @@ h1 {
   border: 1px solid rgba(122, 9, 9, 0.32);
   background: rgba(255, 246, 219, 0.6);
   color: var(--ink);
-  font-size: clamp(0.95rem, 2vw, 1.2rem);
   font-weight: 800;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-align: center;
 }
 
 #drawnList .empty {
