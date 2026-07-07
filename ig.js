@@ -155,10 +155,10 @@ function updateStatus() {
   drawButton.disabled = isDrawing || remaining.length === 0;
   resetButton.disabled = isDrawing;
   if (!resetAwaitingConfirmation) {
-    resetButton.textContent = "重置技庫";
+    resetButton.textContent = "重置名單";
     resetButton.classList.remove("confirming");
   }
-  drawButton.textContent = isDrawing ? "抽選中..." : remaining.length === 0 ? "技庫已抽完" : "抽選開始";
+  drawButton.textContent = isDrawing ? "抽選中..." : remaining.length === 0 ? "名單已抽完" : "抽選開始";
 }
 
 function renderDrawnList() {
@@ -234,7 +234,7 @@ function cancelResetConfirmation() {
   resetAwaitingConfirmation = false;
   window.clearTimeout(resetConfirmTimer);
   resetConfirmTimer = null;
-  resetButton.textContent = "重置技庫";
+  resetButton.textContent = "重置名單";
   resetButton.classList.remove("confirming");
 }
 
